@@ -395,3 +395,16 @@ body, html {
   }
 }
 
+/* ═══════════════ MOBILE SMOOTH SCROLLING ═══════════════ */
+
+@media (max-width: 1024px) {
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+  }
+}
