@@ -2,7 +2,16 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Award, ExternalLink, Calendar, Shield, Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Award,
+  ExternalLink,
+  Calendar,
+  Shield,
+  Eye,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import { certifications } from "@/lib/data";
 import { cn } from "@/lib/utils";
@@ -44,9 +53,25 @@ function CertificatePreview({
         <div className="rounded-2xl overflow-hidden bg-[var(--card)] border border-[var(--border)] shadow-2xl">
           {cert.image ? (
             <img
-              src={cert.image}
+              src={
+                cert.image.includes("drive.google.com")
+                  ? `https://lh3.googleusercontent.com/d/${
+                      cert.image.match(/(?:id=|\/d\/)([^/&?\n]+)/)?.[1] || ""
+                    }`
+                  : cert.image
+              }
               alt={cert.name}
               className="w-full h-auto object-contain"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                // Fallback to uc?export format
+                const target = e.target as HTMLImageElement;
+                const match = cert.image.match(/(?:id=|\/d\/)([^/&?\n]+)/);
+                if (match && !target.dataset.fallback) {
+                  target.dataset.fallback = "true";
+                  target.src = `https://drive.google.com/uc?export=view&id=${match[1]}`;
+                }
+              }}
             />
           ) : (
             <div className="aspect-[4/3] flex flex-col items-center justify-center gap-4 text-[var(--muted-foreground)] p-8">
@@ -56,7 +81,9 @@ function CertificatePreview({
                   {cert.name}
                 </h3>
                 <p className="text-sm">{cert.issuer}</p>
-                <p className="text-xs mt-2">Certificate image will be added soon</p>
+                <p className="text-xs mt-2">
+                  Certificate image will be added soon
+                </p>
               </div>
             </div>
           )}
@@ -128,7 +155,7 @@ function CertCard({
             <h3
               className={cn(
                 "font-bold text-[var(--foreground)] leading-tight mb-0.5",
-                large ? "text-sm" : "text-sm"
+                large ? "text-sm" : "text-sm",
               )}
             >
               {cert.name}

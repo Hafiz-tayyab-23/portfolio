@@ -3,11 +3,10 @@
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
-  Github, ExternalLink, Star, Users, Download,
+  Github, Star, Users, Download,
   Target, Zap, ArrowRight, Search, X,
-  Play, Linkedin, ChevronLeft,
-  ChevronRight, Globe, ImageIcon, Code2,
-  Calendar, Users2, Briefcase,
+  Play, Linkedin, Globe, ImageIcon,
+  Calendar, Users2, Briefcase, Code2,
 } from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import { projects } from "@/lib/data";
@@ -23,104 +22,34 @@ const iconMap: Record<string, React.ReactNode> = {
   zap: <Zap size={14} />,
 };
 
-// ─── YouTube embed helper ─────────────────────────────────────
-function getYouTubeEmbed(url: string): string | null {
+// ─── Get embeddable video URL ─────────────────────────────────
+function getEmbedUrl(url: string): { type: "youtube" | "drive" | "direct"; src: string } | null {
   if (!url) return null;
-  const match = url.match(
+
+  const ytMatch = url.match(
     /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/
   );
-  return match ? `https://www.youtube.com/embed/${match[1]}` : null;
-}
+  if (ytMatch) {
+    return { type: "youtube", src: `https://www.youtube.com/embed/${ytMatch[1]}` };
+  }
 
-// ─── Image Gallery Modal ──────────────────────────────────────
-function ImageGallery({
-  images,
-  onClose,
-  initialIndex = 0,
-}: {
-  images: string[];
-  onClose: () => void;
-  initialIndex?: number;
-}) {
-  const [current, setCurrent] = useState(initialIndex);
-  const prev = () =>
-    setCurrent((c) => (c - 1 + images.length) % images.length);
-  const next = () => setCurrent((c) => (c + 1) % images.length);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="relative max-w-4xl w-full"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          className="absolute -top-10 right-0 text-white/60 hover:text-white transition-colors z-10"
-        >
-          <X size={20} />
-        </button>
-        <div className="relative rounded-2xl overflow-hidden bg-black/50 aspect-video flex items-center justify-center">
-          <img
-            src={images[current]}
-            alt={`Gallery image ${current + 1}`}
-            className="max-w-full max-h-full object-contain"
-          />
-          {images.length > 1 && (
-            <>
-              <button
-                onClick={prev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white transition-all hover:scale-110"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                onClick={next}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white transition-all hover:scale-110"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </>
-          )}
-        </div>
-        {images.length > 1 && (
-          <div className="flex gap-2 mt-3 justify-center flex-wrap">
-            {images.map((img, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                className={cn(
-                  "w-16 h-10 rounded-lg overflow-hidden border-2 transition-all",
-                  i === current
-                    ? "border-blue-500 scale-105"
-                    : "border-transparent opacity-60 hover:opacity-100"
-                )}
-              >
-                <img src={img} alt={`Thumb ${i + 1}`} className="w-full h-full object-cover" />
-              </button>
-            ))}
-          </div>
-        )}
-        <p className="text-center text-white/40 text-xs mt-2">
-          {current + 1} / {images.length}
-        </p>
-      </motion.div>
-    </motion.div>
+  const driveMatch = url.match(
+    /drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=view&)?id=)([^/&?\n]+)/
   );
+  if (driveMatch) {
+    return { type: "drive", src: `https://drive.google.com/file/d/${driveMatch[1]}/preview` };
+  }
+
+  if (url.match(/\.(mp4|webm|ogg|mov)(\?|$)/i)) {
+    return { type: "direct", src: url };
+  }
+
+  return { type: "direct", src: url };
 }
 
 // ─── Video Modal ──────────────────────────────────────────────
 function VideoModal({ url, onClose }: { url: string; onClose: () => void }) {
-  const embedUrl = getYouTubeEmbed(url);
+  const embed = getEmbedUrl(url);
 
   return (
     <motion.div
@@ -145,19 +74,42 @@ function VideoModal({ url, onClose }: { url: string; onClose: () => void }) {
           <X size={20} />
         </button>
         <div className="rounded-2xl overflow-hidden aspect-video bg-black">
-          {embedUrl ? (
-            <iframe
-              src={embedUrl}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+          {embed ? (
+            embed.type === "direct" && embed.src.match(/\.(mp4|webm|ogg|mov)/i) ? (
+              <video src={embed.src} controls autoPlay className="w-full h-full" />
+            ) : (
+              <iframe
+                src={embed.src}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                allowFullScreen
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              />
+            )
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center gap-4 text-white/60">
               <Play size={40} />
-              <p className="text-sm">Opening video in new tab...</p>
+              <p className="text-sm">Unable to embed video</p>
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-lg bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors"
+              >
+                Open in new tab →
+              </a>
             </div>
           )}
+        </div>
+        <div className="mt-3 text-center">
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-white/40 hover:text-white/60 transition-colors"
+          >
+            Having trouble? Open in new tab →
+          </a>
         </div>
       </motion.div>
     </motion.div>
@@ -168,15 +120,13 @@ function VideoModal({ url, onClose }: { url: string; onClose: () => void }) {
 function MediaButtons({
   project,
   onVideoClick,
-  onGalleryClick,
 }: {
   project: (typeof projects)[0];
   onVideoClick: () => void;
-  onGalleryClick: () => void;
 }) {
   const { media, githubUrl, liveUrl } = project;
   const hasVideo = !!media?.videoDemo;
-  const hasGallery = media?.imageGallery && media.imageGallery.length > 0;
+  const hasFolder = !!media?.imageFolderUrl;
   const hasLinkedIn = !!media?.linkedInPost;
 
   return (
@@ -192,16 +142,19 @@ function MediaButtons({
           Video Demo
         </motion.button>
       )}
-      {hasGallery && (
-        <motion.button
-          onClick={(e) => { e.stopPropagation(); onGalleryClick(); }}
+      {hasFolder && (
+        <motion.a
+          href={media.imageFolderUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-purple-400 border border-purple-500/20 bg-purple-500/5 hover:bg-purple-500/15 transition-all"
         >
           <ImageIcon size={12} />
-          Gallery ({media.imageGallery.length})
-        </motion.button>
+          Image Gallery
+        </motion.a>
       )}
       {githubUrl && (
         <motion.a
@@ -249,7 +202,7 @@ function MediaButtons({
   );
 }
 
-// ─── PROJECT CARD — Same for all projects ─────────────────────
+// ─── Project Card — Same for all projects ─────────────────────
 function ProjectCard({
   project,
   index,
@@ -264,7 +217,6 @@ function ProjectCard({
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.15 });
   const [showVideo, setShowVideo] = useState(false);
-  const [showGallery, setShowGallery] = useState(false);
 
   return (
     <>
@@ -289,7 +241,7 @@ function ProjectCard({
         />
 
         <div className="relative">
-          {/* ── Header: Icon + Title + Badges ── */}
+          {/* Header: Icon + Title + Badges */}
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-start gap-3 flex-1 min-w-0">
               <div
@@ -336,12 +288,12 @@ function ProjectCard({
             </div>
           </div>
 
-          {/* ── Description ── */}
+          {/* Description */}
           <p className="text-[var(--muted-foreground)] text-sm leading-relaxed mb-4">
             {project.shortDescription}
           </p>
 
-          {/* ── Metrics ── */}
+          {/* Metrics */}
           {project.metrics.length > 0 && (
             <div className="flex flex-wrap gap-3 mb-4">
               {project.metrics.map((metric) => (
@@ -360,7 +312,7 @@ function ProjectCard({
             </div>
           )}
 
-          {/* ── Project meta ── */}
+          {/* Project meta */}
           <div className="flex flex-wrap gap-3 mb-4 text-xs text-[var(--muted-foreground)]">
             <span className="flex items-center gap-1">
               <Briefcase size={11} className="text-[var(--accent)]" />
@@ -376,7 +328,7 @@ function ProjectCard({
             </span>
           </div>
 
-          {/* ── Tech stack ── */}
+          {/* Tech stack */}
           <div className="flex flex-wrap gap-1.5 mb-4">
             {project.technologies.slice(0, 5).map((tech) => (
               <span
@@ -393,7 +345,7 @@ function ProjectCard({
             )}
           </div>
 
-          {/* ── Media buttons ── */}
+          {/* Media buttons */}
           <div
             className="pt-4 border-t border-[var(--border)]"
             onClick={(e) => e.stopPropagation()}
@@ -401,11 +353,10 @@ function ProjectCard({
             <MediaButtons
               project={project}
               onVideoClick={() => setShowVideo(true)}
-              onGalleryClick={() => setShowGallery(true)}
             />
           </div>
 
-          {/* ── Case study CTA ── */}
+          {/* Case study CTA */}
           <div className="flex items-center gap-1 text-sm text-[var(--muted-foreground)] group-hover:text-[var(--accent)] transition-colors font-medium mt-3">
             <span>View case study</span>
             <ArrowRight
@@ -416,7 +367,7 @@ function ProjectCard({
         </div>
       </motion.div>
 
-      {/* Modals */}
+      {/* Video Modal */}
       <AnimatePresence>
         {showVideo && project.media?.videoDemo && (
           <VideoModal
@@ -424,16 +375,6 @@ function ProjectCard({
             onClose={() => setShowVideo(false)}
           />
         )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {showGallery &&
-          project.media?.imageGallery &&
-          project.media.imageGallery.length > 0 && (
-            <ImageGallery
-              images={project.media.imageGallery}
-              onClose={() => setShowGallery(false)}
-            />
-          )}
       </AnimatePresence>
     </>
   );
@@ -448,7 +389,6 @@ function ProjectModal({
   onClose: () => void;
 }) {
   const [showVideo, setShowVideo] = useState(false);
-  const [showGallery, setShowGallery] = useState(false);
 
   return (
     <>
@@ -526,7 +466,7 @@ function ProjectModal({
             </button>
           </div>
 
-          {/* Media links bar */}
+          {/* Media bar */}
           <div className="mb-8 p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
             <p className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider mb-3">
               Project Links & Media
@@ -534,12 +474,11 @@ function ProjectModal({
             <MediaButtons
               project={project}
               onVideoClick={() => setShowVideo(true)}
-              onGalleryClick={() => setShowGallery(true)}
             />
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Main */}
+            {/* Main content */}
             <div className="md:col-span-2 space-y-6">
               {[
                 { label: "Overview", content: project.longDescription },
@@ -635,14 +574,10 @@ function ProjectModal({
         </div>
       </motion.div>
 
+      {/* Video Modal */}
       <AnimatePresence>
         {showVideo && project.media?.videoDemo && (
           <VideoModal url={project.media.videoDemo} onClose={() => setShowVideo(false)} />
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {showGallery && project.media?.imageGallery && project.media.imageGallery.length > 0 && (
-          <ImageGallery images={project.media.imageGallery} onClose={() => setShowGallery(false)} />
         )}
       </AnimatePresence>
     </>
@@ -753,7 +688,7 @@ export default function Projects() {
         </div>
       )}
 
-      {/* Other Projects — exact same card style */}
+      {/* Other Projects */}
       {rest.length > 0 && (
         <div>
           {featured.length > 0 && (

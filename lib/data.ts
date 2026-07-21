@@ -220,11 +220,9 @@ export const projects = [
     screenshots: [],
     media: {
       videoDemo: "", // ← paste YouTube/Drive video link
-      imageGallery: [
-        // ← paste Google Drive direct image links
-        // Example: "https://drive.google.com/uc?export=view&id=YOUR_FILE_ID"
-      ],
-      linkedInPost: "", // ← paste LinkedIn post URL
+      imageFolderUrl:"https://drive.google.com/drive/folders/1o_l4tegIgpfChZA4_Pwq1GpqXaKR4MR_?usp=sharing",
+      imageGallery: [],
+      linkedInPost: "https://www.linkedin.com/posts/hafiz-muhammad-tayyab-zia-972a82323_sharing-one-of-my-favorite-collaborative-activity-7366511175271878658-2aiN?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFHZwuYBL4kpQlSdPu5WFqaQxeuD6MbX0cc", // ← paste LinkedIn post URL
       presentation: "", // ← paste Google Slides link if any
     },
     shortDescription:
@@ -271,9 +269,9 @@ export const projects = [
     thumbnail: "",
     screenshots: [],
     media: {
-      videoDemo: "", // ← YouTube or Drive video link
+      videoDemo: "https://drive.google.com/file/d/15EdL3m8TZA1pZ1xtrVbKUK1V3LfPy8Hl/preview", // ← YouTube or Drive video link
       imageGallery: [],
-      linkedInPost: "",
+      linkedInPost: "https://www.linkedin.com/posts/hafiz-muhammad-tayyab-zia-972a82323_generativeai-cybersecurity-phishingdetection-activity-7414166328682430464-kAb7?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFHZwuYBL4kpQlSdPu5WFqaQxeuD6MbX0cc",
       presentation: "",
     },
     shortDescription:
@@ -298,8 +296,8 @@ export const projects = [
       { label: "Interface", value: "Zero-install", icon: "users" },
     ],
     technologies: ["Python", "EasyOCR", "Generative AI (LLM)", "Gradio", "Prompt Engineering", "API Integration"],
-    githubUrl: "",
-    liveUrl: "",
+    githubUrl: "https://github.com/Hafiz-tayyab-23/PhishSentry-AI.git",
+    liveUrl: "https://tayyab-23-phishsentry-snapshot.hf.space",
     timeline: "1 month",
     teamSize: "Solo",
     role: "AI Engineer",
@@ -317,8 +315,9 @@ export const projects = [
     screenshots: [],
     media: {
       videoDemo: "",
+      imageFolderUrl:"https://drive.google.com/drive/folders/1q9bXlGnyHpGfyE1vayhAUFhB6hVmz2eR?usp=sharing",
       imageGallery: [],
-      linkedInPost: "",
+      linkedInPost: "https://www.linkedin.com/posts/hafiz-muhammad-tayyab-zia-972a82323_softwareengineering-fullstackdevelopment-ugcPost-7483399604219211777-XHgT/?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFHZwuYBL4kpQlSdPu5WFqaQxeuD6MbX0cc",
       presentation: "",
     },
     shortDescription:
@@ -362,8 +361,9 @@ export const projects = [
     screenshots: [],
     media: {
       videoDemo: "",
+      imageFolderUrl: "https://drive.google.com/drive/folders/1xVlZzVGkAJDoZe3hRsVfDeIRaPe-4kt8?usp=sharing",
       imageGallery: [],
-      linkedInPost: "",
+      linkedInPost: "https://www.linkedin.com/posts/hafiz-muhammad-tayyab-zia-972a82323_softwareengineering-fullstackdevelopment-ugcPost-7480958944761315328-lRw9/?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFHZwuYBL4kpQlSdPu5WFqaQxeuD6MbX0cc",
       presentation: "",
     },
     shortDescription:
@@ -405,8 +405,9 @@ export const projects = [
     screenshots: [],
     media: {
       videoDemo: "",
+      imageFolderUrl: "https://drive.google.com/drive/folders/1A3qyQ-9zgKq5SDOgnI-0f1suHZq0do2-?usp=sharing",
       imageGallery: [],
-      linkedInPost: "",
+      linkedInPost: "https://www.linkedin.com/posts/hafiz-muhammad-tayyab-zia-972a82323_java-operatingsystems-softwaredevelopment-share-7462759235710345216-zsur/?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFHZwuYBL4kpQlSdPu5WFqaQxeuD6MbX0cc",
       presentation: "",
     },
     shortDescription:
@@ -429,7 +430,7 @@ export const projects = [
       { label: "Panels", value: "4 Subsystems", icon: "target" },
     ],
     technologies: ["Java", "Java Swing", "OOP", "GUI Development"],
-    githubUrl: "",
+    githubUrl: "https://github.com/Hafiz-tayyab-23/Mini_OS_Simulator",
     liveUrl: "",
     timeline: "1 month",
     teamSize: "Team project",
@@ -493,7 +494,7 @@ export const projects = [
     media: {
       videoDemo: "",
       imageGallery: [],
-      linkedInPost: "",
+      linkedInPost: "https://www.linkedin.com/posts/hafiz-muhammad-tayyab-zia-972a82323_python-codealpha-internship-activity-7361271548483112960--AOH?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFHZwuYBL4kpQlSdPu5WFqaQxeuD6MbX0cc",
       presentation: "",
     },
     shortDescription:
@@ -516,7 +517,7 @@ export const projects = [
       { label: "Time saved", value: "Hours→Sec", icon: "target" },
     ],
     technologies: ["Python 3", "Regex (re module)", "File I/O", "CLI"],
-    githubUrl: "",
+    githubUrl: "https://github.com/Hafiz-tayyab-23/Email-Automation-Project",
     liveUrl: "",
     timeline: "1 week",
     teamSize: "Solo",
