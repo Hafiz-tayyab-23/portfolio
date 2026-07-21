@@ -394,3 +394,26 @@ body, html {
     animation: none !important;
   }
 }
+
+/* ═══════════════ SMOOTH MOBILE SCROLL ═══════════════ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 1024px) {
+  html {
+    -webkit-overflow-scrolling: touch;
+    scroll-padding-top: 80px;
+  }
+
+  body {
+    -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Prevent tap flash on buttons */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}

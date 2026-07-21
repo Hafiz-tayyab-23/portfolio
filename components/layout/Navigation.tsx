@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X, Download, Command } from "lucide-react";
 import { navLinks, personalInfo } from "@/lib/data";
-import { useTheme } from "@/components/providers/ThemeProvider";
 import { cn, scrollToSection } from "@/lib/utils";
 import ThemeToggle from "@/components/shared/ThemeToggle";
 
@@ -47,15 +46,25 @@ export default function Navigation({ onOpenCommandPalette }: NavigationProps) {
     return () => observer.disconnect();
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
+
   const handleNavClick = useCallback((href: string) => {
     const id = href.replace("#", "");
-    scrollToSection(id);
     setIsOpen(false);
+    // Small delay to let mobile menu close first
+    setTimeout(() => scrollToSection(id), 100);
   }, []);
 
   return (
     <>
-      {/* Scroll Progress */}
       <ScrollProgress />
 
       <motion.nav
@@ -63,9 +72,7 @@ export default function Navigation({ onOpenCommandPalette }: NavigationProps) {
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled
-            ? "py-3"
-            : "py-5"
+          scrolled ? "py-3" : "py-5"
         )}
       >
         <div
@@ -78,11 +85,9 @@ export default function Navigation({ onOpenCommandPalette }: NavigationProps) {
         >
           <div className="flex items-center justify-between h-14">
             {/* Logo */}
-            <motion.button
+            <button
               onClick={() => handleNavClick("#hero")}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 group"
+              className="flex items-center gap-2 group active:scale-95 transition-transform"
             >
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-lg">
                 {personalInfo.firstName[0]}
@@ -92,7 +97,7 @@ export default function Navigation({ onOpenCommandPalette }: NavigationProps) {
                 {personalInfo.firstName}
                 <span className="text-[var(--accent)]">.</span>
               </span>
-            </motion.button>
+            </button>
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1">
@@ -100,13 +105,11 @@ export default function Navigation({ onOpenCommandPalette }: NavigationProps) {
                 const id = href.replace("#", "");
                 const isActive = activeSection === id;
                 return (
-                  <motion.button
+                  <button
                     key={href}
                     onClick={() => handleNavClick(href)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                     className={cn(
-                      "relative px-3 py-2 text-sm font-medium rounded-lg transition-colors animated-underline",
+                      "relative px-3 py-2 text-sm font-medium rounded-lg transition-colors",
                       isActive
                         ? "text-[var(--foreground)]"
                         : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
@@ -120,100 +123,106 @@ export default function Navigation({ onOpenCommandPalette }: NavigationProps) {
                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                       />
                     )}
-                  </motion.button>
+                  </button>
                 );
               })}
             </div>
 
             {/* Actions */}
             <div className="flex items-center gap-2">
-              {/* Command Palette */}
-              <motion.button
+              {/* Command Palette — desktop only */}
+              <button
                 onClick={onOpenCommandPalette}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/[0.08] transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
               >
                 <Command size={14} />
                 <span className="text-xs font-medium">⌘K</span>
-              </motion.button>
+              </button>
 
-              {/* Theme Toggle */}
               <ThemeToggle />
 
-              {/* Mobile Menu */}
-              <motion.button
+              {/* Desktop Resume + CV */}
+              <div className="hidden md:flex items-center gap-1.5">
+                <a
+                  href={personalInfo.resume}
+                  download="Hafiz_Muhammad_Tayyab_Zia_Resume.pdf"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[var(--accent)] text-white text-xs font-medium hover:opacity-90 transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+                >
+                  <Download size={13} />
+                  Resume
+                </a>
+                <a
+                  href={personalInfo.cv}
+                  download="Hafiz_Muhammad_Tayyab_Zia_CV.pdf"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/[0.08] text-[var(--foreground)] text-xs font-medium transition-all active:scale-95"
+                >
+                  <Download size={13} />
+                  CV
+                </a>
+              </div>
+
+              {/* Mobile Menu Button */}
+              <button
                 onClick={() => setIsOpen(!isOpen)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="lg:hidden p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                className="lg:hidden p-2.5 rounded-lg bg-white/5 hover:bg-white/10 active:scale-95 transition-all"
                 aria-label="Toggle menu"
               >
-                <AnimatePresence mode="wait">
-                  {isOpen ? (
-                    <motion.div
-                      key="close"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <X size={18} />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="menu"
-                      initial={{ rotate: 90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Menu size={18} />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.button>
+                {isOpen ? <X size={18} /> : <Menu size={18} />}
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:hidden overflow-hidden"
+        {/* Mobile Menu — SIMPLIFIED, no heavy animations */}
+        {isOpen && (
+          <>
+            {/* Backdrop */}
+            <div
+              onClick={() => setIsOpen(false)}
+              className="lg:hidden fixed inset-0 bg-black/60 z-40"
+              style={{ top: "70px" }}
+            />
+
+            {/* Menu Panel */}
+            <div
+              className="lg:hidden fixed left-4 right-4 top-20 z-50 rounded-2xl border border-white/[0.12] shadow-2xl"
+              style={{ background: "#111111" }}
             >
-              <div className="mx-4 mt-2 p-4 glass rounded-2xl border border-white/[0.08]">
+              <div className="p-4">
                 <div className="space-y-1">
-                  {navLinks.map(({ label, href }, i) => (
-                    <motion.button
+                  {navLinks.map(({ label, href }) => (
+                    <button
                       key={href}
                       onClick={() => handleNavClick(href)}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.05 }}
-                      className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-white/5 transition-all"
+                      className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-white/5 active:bg-white/10 transition-colors"
                     >
                       {label}
-                    </motion.button>
-                  ))}
-                  <div className="pt-2 mt-2 border-t border-white/[0.08] flex gap-2">
-                    <button
-                      onClick={onOpenCommandPalette}
-                      className="px-4 py-3 rounded-xl bg-white/5 border border-white/[0.08] text-sm font-medium text-[var(--muted-foreground)]"
-                    >
-                      ⌘K
                     </button>
-                  </div>
+                  ))}
+                </div>
+
+                <div className="pt-3 mt-3 border-t border-white/[0.08] flex gap-2">
+                  <a
+                    href={personalInfo.resume}
+                    download="Hafiz_Muhammad_Tayyab_Zia_Resume.pdf"
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[var(--accent)] text-white text-sm font-medium active:scale-95 transition-transform"
+                  >
+                    <Download size={14} />
+                    Resume
+                  </a>
+                  <a
+                    href={personalInfo.cv}
+                    download="Hafiz_Muhammad_Tayyab_Zia_CV.pdf"
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white/5 border border-white/[0.08] text-[var(--foreground)] text-sm font-medium active:scale-95 transition-transform"
+                  >
+                    <Download size={14} />
+                    CV
+                  </a>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </>
+        )}
       </motion.nav>
     </>
   );
@@ -221,11 +230,5 @@ export default function Navigation({ onOpenCommandPalette }: NavigationProps) {
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
-
-  return (
-    <motion.div
-      className="scroll-progress"
-      style={{ scaleX: scrollYProgress }}
-    />
-  );
+  return <motion.div className="scroll-progress" style={{ scaleX: scrollYProgress }} />;
 }
