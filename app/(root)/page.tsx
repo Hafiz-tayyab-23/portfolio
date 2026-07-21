@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
@@ -9,19 +8,17 @@ import CommandPalette from "@/components/shared/CommandPalette";
 import AnimatedBackground from "@/components/shared/AnimatedBackground";
 import SectionDivider from "@/components/shared/SectionDivider";
 import Hero from "@/components/sections/Hero";
+import About from "@/components/sections/About";
+import Experience from "@/components/sections/Experience";
+import Projects from "@/components/sections/Projects";
+import Skills from "@/components/sections/Skills";
+import TechStack from "@/components/sections/TechStack";
+import Education from "@/components/sections/Education";
+import Certifications from "@/components/sections/Certifications";
+import Achievements from "@/components/sections/Achievements";
+import Testimonials from "@/components/sections/Testimonials";
+import Contact from "@/components/sections/Contact";
 import ScrollToTop from "@/components/shared/ScrollToTop";
-
-// Lazy load — these only load when needed
-const About = dynamic(() => import("@/components/sections/About"));
-const Experience = dynamic(() => import("@/components/sections/Experience"));
-const Projects = dynamic(() => import("@/components/sections/Projects"));
-const Skills = dynamic(() => import("@/components/sections/Skills"));
-const TechStack = dynamic(() => import("@/components/sections/TechStack"));
-const Education = dynamic(() => import("@/components/sections/Education"));
-const Certifications = dynamic(() => import("@/components/sections/Certifications"));
-const Achievements = dynamic(() => import("@/components/sections/Achievements"));
-const Testimonials = dynamic(() => import("@/components/sections/Testimonials"));
-const Contact = dynamic(() => import("@/components/sections/Contact"));
 
 export default function HomePage() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
@@ -82,4 +79,4 @@ export default function HomePage() {
       <ScrollToTop />
     </>
   );
-}useEffect
+}
