@@ -1406,10 +1406,9 @@ export const seoConfig = {
     "NUST software engineering",
     "AI engineer Pakistan",
     "Computer Vision Python",
-    "Flutter developer Pakistan",
     "NASTP intern",
   ],
-  ogImage: "/api/og",
+  ogImage: "/og-image.png",
   url: "https://hafiztayyab.vercel.app",
   twitterHandle: "",
 };

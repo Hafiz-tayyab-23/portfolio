@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: personalInfo.name,
     images: [
       {
-        url: `${seoConfig.url}/api/og`,
+        url: seoConfig.ogImage,
         width: 1200,
         height: 630,
         alt: `${personalInfo.name} — Portfolio`,
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: seoConfig.title,
     description: seoConfig.description,
-    images: [`${seoConfig.url}/api/og`],
+    images: [seoConfig.ogImage],
   },
   robots: {
     index: true,
