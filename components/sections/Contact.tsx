@@ -33,12 +33,26 @@ export default function Contact() {
     e.preventDefault();
     setSending(true);
 
-    // Replace with your actual form submission logic after deployment
-    await new Promise((r) => setTimeout(r, 1500));
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    toast.success("Message sent! I'll get back to you within 24 hours.");
-    setForm({ name: "", email: "", subject: "", message: "" });
-    setSending(false);
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Message sent! I'll get back to you within 24 hours. ✅");
+        setForm({ name: "", email: "", subject: "", message: "" });
+      } else {
+        toast.error(data.error || "Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      toast.error("Network error. Please check your connection.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const copyEmail = async () => {

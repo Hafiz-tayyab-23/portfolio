@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: personalInfo.name,
     images: [
       {
-        url: seoConfig.ogImage,
+        url: "/api/og",           // ← dynamic OG image
         width: 1200,
         height: 630,
         alt: `${personalInfo.name} — Portfolio`,
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: seoConfig.title,
     description: seoConfig.description,
     creator: seoConfig.twitterHandle,
-    images: [seoConfig.ogImage],
+    images: ["/api/og"],          // ← same here
   },
   robots: {
     index: true,
