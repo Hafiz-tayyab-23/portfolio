@@ -1397,26 +1397,21 @@ export const testimonials: {
 export const seoConfig = {
   name: "Hafiz Muhammad Tayyab Zia",
   title: "Hafiz Muhammad Tayyab Zia — Software Engineer · AI · NUST",
-  description:
-    "Portfolio of Hafiz Muhammad Tayyab Zia, a Software Engineering student at NUST Pakistan. Specializing in AI, Computer Vision, Flutter, and full-stack development. Ex-intern at NASTP.",
+  description: "Software Engineering student at NUST. AI, Computer Vision, and full-stack development. Ex-intern at NASTP.",
   keywords: [
     "Hafiz Muhammad Tayyab Zia",
     "Tayyab Zia",
-    "Hafiz Tayyab",
     "Tayyab Zia portfolio",
-    "Tayyab Zia software engineer",
     "Tayyab Zia NUST",
-    "NUST software engineering student",
+    "NUST software engineering",
     "AI engineer Pakistan",
-    "Computer Vision Python Pakistan",
+    "Computer Vision Python",
     "Flutter developer Pakistan",
-    "Software engineering internship Pakistan",
     "NASTP intern",
-    "hafiztayyabzia",
   ],
-  ogImage: "/og-image.jpeg",
-  url: "https://tayyabzia.dev", // ← replace with your actual domain
-  twitterHandle: "@hafiztayyabzia",
+  ogImage: "/api/og",
+  url: "https://hafiztayyab.vercel.app",
+  twitterHandle: "",
 };
 
 // ============================================================

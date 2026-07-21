@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: personalInfo.name,
     images: [
       {
-        url: "/api/og",           // ← dynamic OG image
+        url: `${seoConfig.url}/api/og`,
         width: 1200,
         height: 630,
         alt: `${personalInfo.name} — Portfolio`,
@@ -43,8 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: seoConfig.title,
     description: seoConfig.description,
-    creator: seoConfig.twitterHandle,
-    images: ["/api/og"],          // ← same here
+    images: [`${seoConfig.url}/api/og`],
   },
   robots: {
     index: true,
@@ -56,9 +55,6 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
-  },
-  verification: {
-    google: "your-google-site-verification",
   },
   alternates: {
     canonical: seoConfig.url,
