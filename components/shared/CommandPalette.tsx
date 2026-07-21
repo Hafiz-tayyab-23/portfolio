@@ -3,9 +3,22 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Search, Home, Code, User, Briefcase, Download,
-  Mail, Github, Linkedin, Moon, Sun, X, ArrowRight,
-  Award, GraduationCap, Wrench
+  Search,
+  Home,
+  Code,
+  User,
+  Briefcase,
+  Download,
+  Mail,
+  Github,
+  Linkedin,
+  Moon,
+  Sun,
+  X,
+  ArrowRight,
+  Award,
+  GraduationCap,
+  Wrench,
 } from "lucide-react";
 import { personalInfo, commandActions } from "@/lib/data";
 import { scrollToSection } from "@/lib/utils";
@@ -31,14 +44,17 @@ const iconMap: Record<string, React.ReactNode> = {
   tools: <Wrench size={16} />,
 };
 
-export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
+export default function CommandPalette({
+  isOpen,
+  onClose,
+}: CommandPaletteProps) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(0);
   const { theme, toggleTheme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const filtered = commandActions.filter((action) =>
-    action.label.toLowerCase().includes(query.toLowerCase())
+    action.label.toLowerCase().includes(query.toLowerCase()),
   );
 
   const execute = useCallback(
@@ -66,7 +82,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
       }
       onClose();
     },
-    [onClose, toggleTheme]
+    [onClose, toggleTheme],
   );
 
   useEffect(() => {
@@ -124,7 +140,10 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
             >
               {/* Search input */}
               <div className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.08]">
-                <Search size={18} className="text-[var(--muted-foreground)] shrink-0" />
+                <Search
+                  size={18}
+                  className="text-[var(--muted-foreground)] shrink-0"
+                />
                 <input
                   ref={inputRef}
                   value={query}
@@ -137,6 +156,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
                 />
                 <button
                   onClick={onClose}
+                  aria-label="Close command palette" // ← ADD this if missing
                   className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
                 >
                   <X size={16} />
@@ -189,9 +209,24 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
 
               {/* Footer */}
               <div className="px-4 py-2.5 border-t border-white/[0.08] flex items-center gap-4 text-xs text-[var(--muted-foreground)]">
-                <span><kbd className="font-mono bg-white/5 px-1.5 py-0.5 rounded">↑↓</kbd> Navigate</span>
-                <span><kbd className="font-mono bg-white/5 px-1.5 py-0.5 rounded">↵</kbd> Select</span>
-                <span><kbd className="font-mono bg-white/5 px-1.5 py-0.5 rounded">Esc</kbd> Close</span>
+                <span>
+                  <kbd className="font-mono bg-white/5 px-1.5 py-0.5 rounded">
+                    ↑↓
+                  </kbd>{" "}
+                  Navigate
+                </span>
+                <span>
+                  <kbd className="font-mono bg-white/5 px-1.5 py-0.5 rounded">
+                    ↵
+                  </kbd>{" "}
+                  Select
+                </span>
+                <span>
+                  <kbd className="font-mono bg-white/5 px-1.5 py-0.5 rounded">
+                    Esc
+                  </kbd>{" "}
+                  Close
+                </span>
               </div>
             </div>
           </motion.div>
