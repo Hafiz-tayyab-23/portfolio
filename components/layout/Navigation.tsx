@@ -141,18 +141,6 @@ export default function Navigation({ onOpenCommandPalette }: NavigationProps) {
               {/* Theme Toggle */}
               <ThemeToggle />
 
-              {/* Resume */}
-              <motion.a
-                href={personalInfo.resume}
-                download
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent)] text-white text-sm font-medium hover:opacity-90 transition-all shadow-lg shadow-blue-500/20"
-              >
-                <Download size={14} />
-                <span>Resume</span>
-              </motion.a>
-
               {/* Mobile Menu */}
               <motion.button
                 onClick={() => setIsOpen(!isOpen)}
@@ -214,14 +202,6 @@ export default function Navigation({ onOpenCommandPalette }: NavigationProps) {
                     </motion.button>
                   ))}
                   <div className="pt-2 mt-2 border-t border-white/[0.08] flex gap-2">
-                    <a
-                      href={personalInfo.resume}
-                      download
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[var(--accent)] text-white text-sm font-medium"
-                    >
-                      <Download size={14} />
-                      Download Resume
-                    </a>
                     <button
                       onClick={onOpenCommandPalette}
                       className="px-4 py-3 rounded-xl bg-white/5 border border-white/[0.08] text-sm font-medium text-[var(--muted-foreground)]"

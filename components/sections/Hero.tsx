@@ -160,56 +160,69 @@ export default function Hero() {
             </motion.div>
 
             {/* CTAs */}
+            {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.65 }}
-              className="flex flex-wrap gap-3"
+              className="flex flex-col gap-3"
             >
-              <motion.a
-                href="#projects"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="group flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold text-sm shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all"
-              >
-                <Sparkles size={16} />
-                View My Work
-                <motion.span
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.5 }}
+              {/* Action buttons */}
+              <div className="flex flex-wrap gap-3">
+                <motion.a
+                  href="#projects"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="group flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold text-sm shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all"
                 >
-                  →
-                </motion.span>
-              </motion.a>
+                  <Sparkles size={16} />
+                  View My Work
+                  <motion.span animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>→</motion.span>
+                </motion.a>
 
-              <motion.a
-                href={personalInfo.resume}
-                download
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/[0.08] hover:border-white/[0.15] text-[var(--foreground)] font-semibold text-sm transition-all"
-              >
-                <Download size={16} />
-                Download CV
-              </motion.a>
+                <motion.a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/[0.08] hover:border-[var(--accent)]/30 text-[var(--muted-foreground)] hover:text-[var(--foreground)] font-semibold text-sm transition-all"
+                >
+                  <Mail size={16} />
+                  Hire Me
+                </motion.a>
+              </div>
 
-              <motion.a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/[0.08] hover:border-[var(--accent)]/30 text-[var(--muted-foreground)] hover:text-[var(--foreground)] font-semibold text-sm transition-all"
-              >
-                <Mail size={16} />
-                Hire Me
-              </motion.a>
+              {/* Download buttons — side by side */}
+              <div className="flex gap-2">
+                <motion.a
+                  href={personalInfo.resume}
+                  download="Hafiz_Muhammad_Tayyab_Zia_Resume.pdf"
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/[0.08] hover:border-white/[0.15] text-[var(--foreground)] font-medium text-sm transition-all"
+                >
+                  <Download size={15} />
+                  Resume
+                </motion.a>
+
+                <motion.a
+                  href={personalInfo.cv}
+                  download="Hafiz_Muhammad_Tayyab_Zia_CV.pdf"
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/[0.08] hover:border-white/[0.15] text-[var(--foreground)] font-medium text-sm transition-all"
+                >
+                  <Download size={15} />
+                  CV
+                </motion.a>
+              </div>
             </motion.div>
 
             {/* Social links */}

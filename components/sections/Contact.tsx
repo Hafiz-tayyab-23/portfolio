@@ -8,10 +8,10 @@ import {
   Linkedin,
   MapPin,
   Send,
-  Twitter,
   Calendar,
   Copy,
   Check,
+  Download,
 } from "lucide-react";
 import { personalInfo } from "@/lib/data";
 import SectionWrapper from "@/components/shared/SectionWrapper";
@@ -33,8 +33,7 @@ export default function Contact() {
     e.preventDefault();
     setSending(true);
 
-    // Replace with your actual form submission logic
-    // e.g., Formspree, EmailJS, or your own API route
+    // Replace with your actual form submission logic after deployment
     await new Promise((r) => setTimeout(r, 1500));
 
     toast.success("Message sent! I'll get back to you within 24 hours.");
@@ -181,6 +180,36 @@ export default function Contact() {
               ),
             )}
           </div>
+
+          {/* Download Documents */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.5 }}
+            className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)]"
+          >
+            <p className="text-sm font-medium text-[var(--foreground)] mb-3 flex items-center gap-2">
+              📄 Download Documents
+            </p>
+            <div className="flex gap-2">
+              <a
+                href={personalInfo.resume}
+                download="Hafiz_Muhammad_Tayyab_Zia_Resume.pdf"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--accent)] text-white text-xs font-medium hover:opacity-90 transition-all shadow-lg shadow-blue-500/20"
+              >
+                <Download size={13} />
+                Resume
+              </a>
+              <a
+                href={personalInfo.cv}
+                download="Hafiz_Muhammad_Tayyab_Zia_CV.pdf"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/[0.08] text-[var(--foreground)] text-xs font-medium transition-all"
+              >
+                <Download size={13} />
+                CV
+              </a>
+            </div>
+          </motion.div>
 
           {/* Calendar placeholder */}
           <motion.div

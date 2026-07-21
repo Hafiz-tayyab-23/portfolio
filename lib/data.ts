@@ -27,7 +27,8 @@ export const personalInfo = {
   university: "National University of Sciences and Technology (NUST)",
 
   profileImage: "/images/profile.jpg", // ← add your photo here
-  resume: "/resume.pdf",               // ← add your resume PDF here
+  resume: "/resume.pdf", 
+  cv:"/cv.pdf",             // ← add your resume PDF here
 
   social: {
     github: "https://github.com/Hafiz-tayyab-23",   // ← confirm your GitHub URL
@@ -1445,6 +1446,7 @@ export const commandActions = [
   { label: "View Education", section: "education", icon: "education" },
   { label: "View Achievements", section: "achievements", icon: "award" },
   { label: "Download Resume", action: "resume", icon: "download" },
+  { label: "Download CV", action: "cv", icon: "download" },
   { label: "Send Email", action: "email", icon: "mail" },
   { label: "GitHub Profile", action: "github", icon: "github" },
   { label: "LinkedIn Profile", action: "linkedin", icon: "linkedin" },

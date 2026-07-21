@@ -46,7 +46,15 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
       if (action.section) {
         scrollToSection(action.section);
       } else if (action.action === "resume") {
-        window.open(personalInfo.resume, "_blank");
+        const link = document.createElement("a");
+        link.href = personalInfo.resume;
+        link.download = "Hafiz_Muhammad_Tayyab_Zia_Resume.pdf";
+        link.click();
+      } else if (action.action === "cv") {
+        const link = document.createElement("a");
+        link.href = personalInfo.cv;
+        link.download = "Hafiz_Muhammad_Tayyab_Zia_CV.pdf";
+        link.click();
       } else if (action.action === "email") {
         window.location.href = personalInfo.social.email;
       } else if (action.action === "github") {
