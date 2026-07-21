@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { name, email, subject, message } = body;
 
+    // Validate
     if (!name || !email || !subject || !message) {
       return NextResponse.json(
         { error: "All fields are required" },
@@ -23,10 +21,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const apiKey = process.env.RESEND_API_KEY;
+    const contactEmail = process.env.CONTACT_EMAIL;
+
+    if (!apiKey || apiKey === "placeholder_add_later") {
+      console.warn("Resend API key not configured");
+      return NextResponse.json(
+        { error: "Email service not configured yet." },
+        { status: 503 }
+      );
+    }
+
+    // Dynamically import Resend only when key exists
+    const { Resend } = await import("resend");
+    const resend = new Resend(apiKey);
+
     // Email to YOU
     await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
-      to: process.env.CONTACT_EMAIL!,
+      to: contactEmail!,
       subject: `📬 Portfolio Contact: ${subject}`,
       html: `
         <!DOCTYPE html>
@@ -76,7 +89,7 @@ export async function POST(req: NextRequest) {
       `,
     });
 
-    // Confirmation email to SENDER
+    // Confirmation to SENDER
     await resend.emails.send({
       from: "Tayyab Zia <onboarding@resend.dev>",
       to: email,
@@ -105,7 +118,7 @@ export async function POST(req: NextRequest) {
                   <a href="https://linkedin.com/in/hafiz-muhammad-tayyab-zia" style="color:#3B82F6;text-decoration:none;">LinkedIn</a>.
                 </p>
               </div>
-              <div style="padding:16px 32px;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;">
+              <div style="padding:16px 32px;border-top:1px solid rgba(255,255,255,0.06);">
                 <p style="margin:0;font-size:12px;color:#52525B;">Hafiz Muhammad Tayyab Zia</p>
               </div>
             </div>
@@ -114,10 +127,8 @@ export async function POST(req: NextRequest) {
       `,
     });
 
-    return NextResponse.json(
-      { success: true },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true }, { status: 200 });
+
   } catch (error) {
     console.error("Email error:", error);
     return NextResponse.json(
