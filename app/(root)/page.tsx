@@ -44,6 +44,26 @@ export default function HomePage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
+    // Pause animations during scroll on mobile
+  useEffect(() => {
+    let scrollTimer: ReturnType<typeof setTimeout>;
+    const html = document.documentElement;
+
+    const handleScroll = () => {
+      html.classList.add("is-scrolling");
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        html.classList.remove("is-scrolling");
+      }, 150);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(scrollTimer);
+    };
+  }, []);
+
   return (
     <>
       {showLoader && <LoadingScreen />}
@@ -82,4 +102,4 @@ export default function HomePage() {
       <ScrollToTop />
     </>
   );
-}
+}useEffect

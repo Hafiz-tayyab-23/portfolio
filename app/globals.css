@@ -408,3 +408,36 @@ body, html {
     overscroll-behavior-y: none;
   }
 }
+
+/* ═══════════════ MOBILE SCROLL PERFORMANCE ═══════════════ */
+
+@media (max-width: 1024px) {
+  /* Smooth iOS momentum scrolling */
+  html {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+  }
+
+  /* Reduce backdrop blur — biggest GPU cost on mobile */
+  .glass {
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+
+  /* Force GPU layers only where needed — prevents repaint stutter */
+  .card-hover,
+  section {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: auto;
+  }
+
+  /* Pause heavy background animations while scrolling */
+  html.is-scrolling * {
+    animation-play-state: paused !important;
+  }
+}
