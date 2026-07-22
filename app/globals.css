@@ -417,3 +417,29 @@ html {
     -webkit-tap-highlight-color: transparent;
   }
 }
+
+/* ═══════════════ MOBILE INTERACTION PERFORMANCE ═══════════════ */
+
+/* On touch devices, disable expensive hover animations */
+@media (hover: none) and (pointer: coarse) {
+  /* Framer Motion hover animations don't matter on touch */
+  * {
+    transition-duration: 150ms !important;
+  }
+
+  /* Simple tap feedback instead */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Fast active state */
+  button:active, a:active {
+    opacity: 0.7;
+    transition: opacity 50ms !important;
+  }
+
+  /* Disable will-change on non-critical elements to free up GPU */
+  .card-hover, .glass {
+    will-change: auto !important;
+  }
+}

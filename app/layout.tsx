@@ -75,6 +75,15 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#09090B" />
         <meta name="color-scheme" content="dark light" />
+
+        {/* ← ADD THESE TWO LINES */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/profile.webp"
+          fetchPriority="high"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
       </head>
       <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased">
         <ThemeProvider>
