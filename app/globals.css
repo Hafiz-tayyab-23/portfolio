@@ -443,3 +443,43 @@ html {
     will-change: auto !important;
   }
 }
+
+/* ═══════════════ INP OPTIMIZATION FOR MOBILE ═══════════════ */
+
+/* Touch devices — replace JS animations with pure CSS */
+@media (hover: none) and (pointer: coarse) {
+
+  /* Instant tap feedback using CSS only */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: transform 100ms ease, opacity 100ms ease;
+  }
+
+  /* Active state — instant, GPU-only */
+  button:active, a:active, [role="button"]:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+
+  /* Cancel Framer Motion whileHover on touch */
+  .card-hover:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+  }
+
+  /* Faster transitions for hover-based effects */
+  * {
+    transition-duration: 150ms !important;
+  }
+
+  /* Reduce animation complexity during interaction */
+  html:active *, body:active * {
+    animation-play-state: paused !important;
+  }
+
+  /* Prevent double-tap zoom delay */
+  a, button {
+    touch-action: manipulation;
+  }
+}

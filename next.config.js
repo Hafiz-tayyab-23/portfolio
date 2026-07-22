@@ -21,9 +21,14 @@ const nextConfig = {
   compress: true,
   reactStrictMode: true,
   swcMinify: true,
+  // ← ADD THIS BLOCK
   experimental: {
-    // ← These two lines fix your "Legacy JavaScript" warning
-    optimizePackageImports: ["lucide-react", "framer-motion", "@radix-ui/react-dialog"],
+    optimizePackageImports: [
+      "lucide-react",
+      "framer-motion",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-tooltip",
+    ],
   },
   async headers() {
     return [
