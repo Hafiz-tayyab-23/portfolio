@@ -26,7 +26,7 @@ export const personalInfo = {
   currentRole: "Software Engineering Student @ NUST '28",
   university: "National University of Sciences and Technology (NUST)",
 
-  profileImage: "/images/profile.webp", // ← add your photo here
+  profileImage: "/images/profile.jpg", // ← add your photo here
   resume: "/resume.pdf", 
   cv:"/cv.pdf",             // ← add your resume PDF here
 

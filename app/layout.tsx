@@ -80,7 +80,7 @@ export default function RootLayout({
         <link
           rel="preload"
           as="image"
-          href="/images/profile.webp"
+          href="/images/profile.jpg"
           fetchPriority="high"
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
