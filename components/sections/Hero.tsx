@@ -294,7 +294,11 @@ export default function Hero() {
               />
 
               {/* Avatar image */}
-              <div className="relative w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden border-4 border-[var(--card)] shadow-2xl">
+              <div className="relative w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden shadow-2xl"
+     style={{
+       border: "4px solid rgba(255,255,255,0.15)",
+       boxShadow: "0 20px 60px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1)",
+     }}>
                 <img
                   src={personalInfo.profileImage}
                   alt={personalInfo.name}
@@ -313,7 +317,14 @@ export default function Hero() {
                   </div>
                 </div>
                 {/* Bottom gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                {/* Subtle inner glow — makes photo pop from background */}
+<div
+  className="absolute inset-0 pointer-events-none"
+  style={{
+    background: "radial-gradient(circle at 50% 40%, transparent 40%, rgba(0,0,0,0.15) 100%)",
+    borderRadius: "50%",
+  }}
+/>
               </div>
             </div>
 
